@@ -14,33 +14,31 @@ class DetailViewController: UIViewController
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    
+    // Subscriber for downloading image.
     private var _imageSubscriber: AnyCancellable?
     
-    var item: SearchItem?
+    var itemVM: SearchItemViewModel?
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        guard let item = item else {
-            assertionFailure("SearchItem must be set before presenting.")
+        guard let itemVM = itemVM else {
+            assertionFailure("SearchItemViewModel must be set before presenting!")
             return
         }
-        updateUI(with: item)
-    }
-    
-    // MARK: - Private methods
-    
-    private func updateUI(with item: SearchItem)
-    {
-        title = item.title
-        titleLabel.text = item.title
-        descriptionLabel.text = item.description
-
-        if let thumbnailURL = item.thumbnailURL  {
-            _imageSubscriber = URLSession.shared.fetchImage(for: thumbnailURL, placeholder: #imageLiteral(resourceName: "placeholder"))
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.imageView.image, on: self)
-        }
+        
+        // Bind view-model to UI elements.
+        //
+        itemVM.title.assign(to: \.title, on: self).cancel()
+        itemVM.title.assign(to: \.titleLabel.text, on: self).cancel()
+        itemVM.description.assign(to: \.descriptionLabel.text, on: self).cancel()
+        itemVM.thumbnailURL
+            .compactMap{ return $0 }
+            .sink { thumbnailURL in
+                self._imageSubscriber = URLSession.shared.fetchImage(for: thumbnailURL, placeholder: #imageLiteral(resourceName: "placeholder"))
+                    .receive(on: DispatchQueue.main)
+                    .assign(to: \.imageView.image, on: self) }.cancel()
     }
 }
