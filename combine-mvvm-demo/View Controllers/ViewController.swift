@@ -14,8 +14,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
-    private var _itemListVM: SearchItemListViewModel?
-    private var _fetchSubscriber: AnyCancellable?
+    private var _searchItemListVM: SearchItemListViewModel?
+    private var _fetchJSONSubscriber: AnyCancellable?
     private var _searchTextChangedSubscriber:AnyCancellable?
     
     override func viewDidLoad()
@@ -32,7 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         if let detailViewController = segue.destination as? DetailViewController, let selected = tableView.indexPathForSelectedRow {
-            detailViewController.itemVM = _itemListVM?.item(at: selected.row)
+            detailViewController.itemVM = _searchItemListVM?.item(at: selected.row)
         }
     }
     
@@ -48,12 +48,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return _itemListVM?.itemList.count ?? 0
+        return _searchItemListVM?.searchItemList.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as? SearchResultCell, let item = _itemListVM?.item(at: indexPath.row) else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as? SearchResultCell, let item = _searchItemListVM?.item(at: indexPath.row) else { return UITableViewCell() }
         
         cell.configure(with: item)
         return cell
@@ -67,8 +67,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let resource = Resource<SearchResult>(request: request)
         
-        _fetchSubscriber?.cancel()
-        _fetchSubscriber = URLSession.shared.fetchJSON(for: resource)
+        _fetchJSONSubscriber?.cancel()
+        _fetchJSONSubscriber = URLSession.shared.fetchJSON(for: resource)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
@@ -79,7 +79,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }, receiveValue: { result in
                 let itemsWithImage = result.collection.items.filter { $0.thumbnailURL != nil }
-                self._itemListVM = SearchItemListViewModel(itemsWithImage)
+                self._searchItemListVM = SearchItemListViewModel(itemsWithImage)
                 self.tableView.reloadData()
             })
     }

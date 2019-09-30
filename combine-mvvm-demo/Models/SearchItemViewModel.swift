@@ -11,43 +11,43 @@ import Combine
 
 struct SearchItemListViewModel
 {
-    let itemList: [SearchItemViewModel]
+    let searchItemList: [SearchItemViewModel]
 }
 
 extension SearchItemListViewModel
 {
     init(_ items: [SearchItem])
     {
-        itemList = items.map{ SearchItemViewModel($0) }
+        searchItemList = items.map{ SearchItemViewModel($0) }
     }
     
     func item(at index: Int) -> SearchItemViewModel
     {
-        return itemList[index]
+        return searchItemList[index]
     }
 }
 
 struct SearchItemViewModel
 {
-    let item: SearchItem
+    let searchItem: SearchItem
 }
 
 extension SearchItemViewModel
 {
     init(_ item: SearchItem)
     {
-        self.item = item
+        searchItem = item
     }
     
     var title: AnyPublisher<String?, Never> {
-        return Just(item.title).eraseToAnyPublisher()
+        return Just(searchItem.title).eraseToAnyPublisher()
     }
     
     var description: AnyPublisher<String?, Never> {
-        return Just(item.description).eraseToAnyPublisher()
+        return Just(searchItem.description).eraseToAnyPublisher()
     }
     
     var thumbnailURL: AnyPublisher<URL?, Never> {
-        return Just(item.thumbnailURL).eraseToAnyPublisher()
+        return Just(searchItem.thumbnailURL).eraseToAnyPublisher()
     }
 }
