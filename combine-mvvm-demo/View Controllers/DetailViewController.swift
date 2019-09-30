@@ -1,6 +1,6 @@
 //
 //  DetailViewController.swift
-//  mvc-demo
+//  combine-mvvm-demo
 //
 //  Created by Niels Nørskov on 30/09/2019.
 //  Copyright © 2019 Niels Nørskov. All rights reserved.

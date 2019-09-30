@@ -1,6 +1,6 @@
 //
 //  URLSession+Extensionsx.swift
-//  mvc-demo
+//  combine-mvvm-demo
 //
 //  Created by Niels Nørskov on 24/09/2019.
 //  Copyright © 2019 Niels Nørskov. All rights reserved.
@@ -27,7 +27,7 @@ extension URLSession
     func fetchImage(for url: URL, placeholder: UIImage? = nil) -> AnyPublisher<UIImage?, Never>
     {
         return dataTaskPublisher(for: url)
-            .tryMap {data, response -> UIImage in
+            .tryMap { data, response -> UIImage in
                 guard let image = UIImage(data: data) else {
                     throw API.APIError.invalidResponse
                 }

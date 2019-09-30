@@ -1,6 +1,6 @@
 //
 //  API.swift
-//  mvc-demo
+//  combine-mvvm-demo
 //
 //  Created by Niels Nørskov on 24/09/2019.
 //  Copyright © 2019 Niels Nørskov. All rights reserved.
@@ -13,10 +13,10 @@ class API
     enum APIError: Error
     {
         /// Network error from URLSession.
-        case networkError( Error )
+        case networkError(Error)
         
         /// HTTP status error.
-        case httpStatusError( statusCode: Int )
+        case httpStatusError(statusCode: Int)
         
         /// Invalid data returned by server.
         case invalidResponse
