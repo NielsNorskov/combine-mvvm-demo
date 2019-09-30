@@ -30,13 +30,13 @@ class DetailViewController: UIViewController
         }
         
         // Bind view-model to UI elements.
-        //
         itemVM.title.assign(to: \.title, on: self).cancel()
         itemVM.title.assign(to: \.titleLabel.text, on: self).cancel()
         itemVM.description.assign(to: \.descriptionLabel.text, on: self).cancel()
         itemVM.thumbnailURL
             .compactMap{ return $0 }
             .sink { thumbnailURL in
+                // Download image.
                 self._imageSubscriber = URLSession.shared.fetchImage(for: thumbnailURL, placeholder: #imageLiteral(resourceName: "placeholder"))
                     .receive(on: DispatchQueue.main)
                     .assign(to: \.imageView.image, on: self) }.cancel()

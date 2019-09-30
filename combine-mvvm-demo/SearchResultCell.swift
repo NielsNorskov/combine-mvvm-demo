@@ -13,7 +13,10 @@ class SearchResultCell: UITableViewCell
 {
     @IBOutlet weak var thumbnailView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
+    
     private var _subscriber: AnyCancellable?
+    
+    private var _imageSubscriber: AnyCancellable?
     
     override func prepareForReuse()
     {
@@ -21,14 +24,19 @@ class SearchResultCell: UITableViewCell
         _subscriber?.cancel()
     }
     
-    func configure(with item: SearchItem)
+    func configure(with itemVM: SearchItemViewModel)
     {
-        titleLabel.text = item.title ?? "Untitled"
+        // Set image to placeholder while downloading.
         thumbnailView.image = #imageLiteral(resourceName: "placeholder")
-        if let thumbnailURL = item.thumbnailURL {
-            _subscriber = URLSession.shared.fetchImage(for: thumbnailURL, placeholder: #imageLiteral(resourceName: "placeholder"))
-                .receive(on: DispatchQueue.main)
-                .assign(to: \.thumbnailView.image, on: self)
-        }
+        
+        // Bind view-model to UI elements.
+        itemVM.title.assign(to: \.titleLabel.text, on: self).cancel()
+        itemVM.thumbnailURL
+            .compactMap{ return $0 }
+            .sink { thumbnailURL in
+                // Download image.
+                self._imageSubscriber = URLSession.shared.fetchImage(for: thumbnailURL, placeholder: #imageLiteral(resourceName: "placeholder"))
+                    .receive(on: DispatchQueue.main)
+                    .assign(to: \.thumbnailView.image, on: self) }.cancel()
     }
 }

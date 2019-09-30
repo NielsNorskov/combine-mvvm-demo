@@ -52,9 +52,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        guard let cell = tableView.dequeueReusableCell( withIdentifier: "SearchResultCell" ) as? SearchResultCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as? SearchResultCell else { return UITableViewCell() }
         
-        cell.configure(with: _items[indexPath.row])
+        cell.configure(with: SearchItemViewModel(_items[indexPath.row]))
         return cell
     }
     
