@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    
     private var _items: [SearchItem] = []
     private var _fetchSubscriber: AnyCancellable?
     private var _searchTextChangedSubscriber:AnyCancellable?
