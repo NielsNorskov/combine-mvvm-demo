@@ -70,17 +70,15 @@
 		B80E16BD234259CB0000F54C /* combine-mvvm-demo */ = {
 			isa = PBXGroup;
 			children = (
+				B80E16E523428C8F0000F54C /* Xib */,
+				B80E16E423428C630000F54C /* Extensions */,
 				B80E16E3234286D40000F54C /* View Controllers */,
 				B80E16DE23425D420000F54C /* Models */,
 				B80E16DA23425B030000F54C /* SearchResultCell.swift */,
 				B80E16D823425AF70000F54C /* API.swift */,
-				B80E16D223425AA00000F54C /* URLRequest+Extensions.swift */,
-				B80E16D323425AA10000F54C /* URLSession+Extensions.swift */,
 				B80E16BE234259CB0000F54C /* AppDelegate.swift */,
 				B80E16C0234259CB0000F54C /* SceneDelegate.swift */,
-				B80E16C4234259CB0000F54C /* Main.storyboard */,
 				B80E16C7234259CD0000F54C /* Assets.xcassets */,
-				B80E16C9234259CD0000F54C /* LaunchScreen.storyboard */,
 				B80E16CC234259CD0000F54C /* Info.plist */,
 			);
 			path = "combine-mvvm-demo";
@@ -102,6 +100,24 @@
 				B80E16DC23425B0F0000F54C /* DetailViewController.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		B80E16E423428C630000F54C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B80E16D223425AA00000F54C /* URLRequest+Extensions.swift */,
+				B80E16D323425AA10000F54C /* URLSession+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B80E16E523428C8F0000F54C /* Xib */ = {
+			isa = PBXGroup;
+			children = (
+				B80E16C4234259CB0000F54C /* Main.storyboard */,
+				B80E16C9234259CD0000F54C /* LaunchScreen.storyboard */,
+			);
+			path = Xib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
