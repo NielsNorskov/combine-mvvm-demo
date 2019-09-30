@@ -9,6 +9,24 @@
 import Foundation
 import Combine
 
+struct SearchItemListViewModel
+{
+    let itemList: [SearchItemViewModel]
+}
+
+extension SearchItemListViewModel
+{
+    init(_ items: [SearchItem])
+    {
+        itemList = items.map{ SearchItemViewModel($0) }
+    }
+    
+    func item(at index: Int) -> SearchItemViewModel
+    {
+        return itemList[index]
+    }
+}
+
 struct SearchItemViewModel
 {
     let item: SearchItem

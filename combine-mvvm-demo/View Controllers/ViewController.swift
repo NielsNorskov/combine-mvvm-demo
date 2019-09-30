@@ -14,7 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
-    private var _items: [SearchItem] = []
+    private var _itemListVM: SearchItemListViewModel?
     private var _fetchSubscriber: AnyCancellable?
     private var _searchTextChangedSubscriber:AnyCancellable?
     
@@ -32,7 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         if let detailViewController = segue.destination as? DetailViewController, let selected = tableView.indexPathForSelectedRow {
-            detailViewController.itemVM = SearchItemViewModel(_items[selected.row])
+            detailViewController.itemVM = _itemListVM?.item(at: selected.row)
         }
     }
     
@@ -48,14 +48,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return _items.count
+        return _itemListVM?.itemList.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as? SearchResultCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as? SearchResultCell, let item = _itemListVM?.item(at: indexPath.row) else { return UITableViewCell() }
         
-        cell.configure(with: SearchItemViewModel(_items[indexPath.row]))
+        cell.configure(with: item)
         return cell
     }
     
@@ -78,7 +78,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     print("An error occured: \(error).")
                 }
             }, receiveValue: { result in
-                self._items = result.collection.items.filter { $0.thumbnailURL != nil }
+                let itemsWithImage = result.collection.items.filter { $0.thumbnailURL != nil }
+                self._itemListVM = SearchItemListViewModel(itemsWithImage)
                 self.tableView.reloadData()
             })
     }

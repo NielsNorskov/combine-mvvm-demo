@@ -14,14 +14,12 @@ class SearchResultCell: UITableViewCell
     @IBOutlet weak var thumbnailView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
-    private var _subscriber: AnyCancellable?
-    
     private var _imageSubscriber: AnyCancellable?
     
     override func prepareForReuse()
     {
         // Cancel the activity.
-        _subscriber?.cancel()
+        _imageSubscriber?.cancel()
     }
     
     func configure(with itemVM: SearchItemViewModel)
