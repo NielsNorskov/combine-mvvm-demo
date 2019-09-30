@@ -15,10 +15,10 @@ class DetailViewController: UIViewController
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
+    var itemVM: SearchItemViewModel?
+    
     // Subscriber for downloading image.
     private var _imageSubscriber: AnyCancellable?
-    
-    var itemVM: SearchItemViewModel?
     
     override func viewDidLoad()
     {
