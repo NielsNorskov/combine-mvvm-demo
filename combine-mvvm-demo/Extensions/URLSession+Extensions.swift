@@ -18,6 +18,7 @@ extension URLSession
 {
     /// Fetch JSOM model from server.
     /// - Parameter resource: Resource<T> for Codable JSON model of type T.
+    /// - Returns: AnyPublisher<T, Error>.
     func fetchJSON<T:Codable>(for resource: Resource<T>) -> AnyPublisher<T, Error>
     {
         return dataTaskPublisher(for: resource.request)
@@ -29,7 +30,7 @@ extension URLSession
     /// Fetch image from server.
     /// - Parameter url: URL pointing to image resource.
     /// - Parameter placeholder: Placeholder image if image can't be downloaded.
-    /// - Returns: AnyPublisher<UIImage?, Never>
+    /// - Returns: AnyPublisher<UIImage?, Never>.
     func fetchImage(for url: URL, placeholder: UIImage? = nil) -> AnyPublisher<UIImage?, Never>
     {
         return dataTaskPublisher(for: url)
