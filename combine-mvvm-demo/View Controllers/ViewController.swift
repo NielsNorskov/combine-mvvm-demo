@@ -14,6 +14,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
+    @Published private var _searchString: String = ""
+    
     private var _searchItemListVM: SearchItemListViewModel?
     private var _fetchJSONSubscriber: AnyCancellable?
     private var _searchTextChangedSubscriber:AnyCancellable?
@@ -22,11 +24,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     {
         super.viewDidLoad()
         
-        // Listen for text changes on the search text field.
-        _searchTextChangedSubscriber = NotificationCenter.Publisher(center: .default, name: UITextField.textDidChangeNotification, object: searchTextField)
-                .compactMap{ return ($0.object as? UITextField)?.text }
-                .debounce(for: 2.0, scheduler: DispatchQueue.main)
-                .sink { self.performSearch(for: $0) }
+        _searchTextChangedSubscriber = $_searchString
+            .debounce(for: 1.0, scheduler: DispatchQueue.main)
+            .sink { self.performSearch(for: $0) }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -42,6 +42,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let selected = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: selected, animated: animated)
         }
+    }
+    
+    // MARK: - IBAction
+    
+    @IBAction func searchTextChanged(_ sender: UITextField)
+    {
+        guard let text = sender.text else { return }
+        _searchString = text
     }
     
     // MARK: - UITableView delegate
