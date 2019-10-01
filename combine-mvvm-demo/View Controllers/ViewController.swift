@@ -32,7 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         if let detailViewController = segue.destination as? DetailViewController, let selected = tableView.indexPathForSelectedRow {
-            detailViewController.itemVM = _searchItemListVM?.item(at: selected.row)
+            detailViewController.searchItemVM = _searchItemListVM?.item(at: selected.row)
         }
     }
     

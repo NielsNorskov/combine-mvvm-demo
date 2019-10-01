@@ -15,7 +15,7 @@ class DetailViewController: UIViewController
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
-    var itemVM: SearchItemViewModel?
+    var searchItemVM: SearchItemViewModel?
     
     // Subscriber for downloading image.
     private var _imageSubscriber: AnyCancellable?
@@ -24,16 +24,16 @@ class DetailViewController: UIViewController
     {
         super.viewDidLoad()
         
-        guard let itemVM = itemVM else {
+        guard let searchItemVM = searchItemVM else {
             assertionFailure("SearchItemViewModel must be set before presenting!")
             return
         }
         
         // Bind view-model to UI elements.
-        itemVM.title.assign(to: \.title, on: self).cancel()
-        itemVM.title.assign(to: \.titleLabel.text, on: self).cancel()
-        itemVM.description.assign(to: \.descriptionLabel.text, on: self).cancel()
-        itemVM.thumbnailURL
+        searchItemVM.title.assign(to: \.title, on: self).cancel()
+        searchItemVM.title.assign(to: \.titleLabel.text, on: self).cancel()
+        searchItemVM.description.assign(to: \.descriptionLabel.text, on: self).cancel()
+        searchItemVM.thumbnailURL
             .compactMap{ return $0 }
             .sink { thumbnailURL in
                 // Download image.
