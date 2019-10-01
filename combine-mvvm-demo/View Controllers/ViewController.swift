@@ -18,7 +18,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     private var _searchItemListVM: SearchItemListViewModel?
     private var _fetchJSONSubscriber: AnyCancellable?
-    private var _searchTextChangedSubscriber:AnyCancellable?
+    private var _searchTextChangedSubscriber: AnyCancellable?
     
     override func viewDidLoad()
     {
