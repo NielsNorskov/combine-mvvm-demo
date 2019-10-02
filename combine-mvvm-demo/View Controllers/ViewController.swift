@@ -25,7 +25,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         _searchTextChangedSubscriber = $_searchString
-            .debounce(for: 1.0, scheduler: DispatchQueue.main)
+            .debounce(for: 0.5, scheduler: DispatchQueue.main)
             .sink { self.performSearch(for: $0) }
     }
     
