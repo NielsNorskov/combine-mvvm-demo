@@ -9,7 +9,7 @@
 import UIKit
 import Combine
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
+class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
