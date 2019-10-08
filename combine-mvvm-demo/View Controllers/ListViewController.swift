@@ -72,9 +72,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func performSearch(for keyword: String)
     {
-        print(keyword)
-        return
-        
         guard let baseURL = URL( string: "https://images-api.nasa.gov" ), let request = URLRequest(for: "search", httpMethod: .GET, query: ["q" : keyword], baseURL: baseURL ) else { return }
         
         let resource = Resource<SearchResult>(request: request)
