@@ -25,6 +25,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         _searchTextChangedSubscriber = $_searchString
+            .filter { $0.count > 3 }
             .debounce(for: 0.5, scheduler: DispatchQueue.main)
             .sink { self.performSearch(for: $0) }
     }
@@ -71,6 +72,9 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func performSearch(for keyword: String)
     {
+        print(keyword)
+        return
+        
         guard let baseURL = URL( string: "https://images-api.nasa.gov" ), let request = URLRequest(for: "search", httpMethod: .GET, query: ["q" : keyword], baseURL: baseURL ) else { return }
         
         let resource = Resource<SearchResult>(request: request)
