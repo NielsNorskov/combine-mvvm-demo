@@ -18,6 +18,8 @@ class SearchResultCell: UITableViewCell
     
     override func prepareForReuse()
     {
+        super.prepareForReuse()
+        
         // Cancel the activity.
         _imageSubscriber?.cancel()
     }
