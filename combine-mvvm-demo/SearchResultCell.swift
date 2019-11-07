@@ -27,7 +27,7 @@ class SearchResultCell: UITableViewCell
     func configure(with itemVM: SearchItemViewModel)
     {
         // Set image to placeholder while downloading.
-        thumbnailView.image = #imageLiteral(resourceName: "placeholder")
+        thumbnailView.image = UIImage(systemName: "photo")
         
         // Bind view-model to UI elements.
         itemVM.title.assign(to: \.titleLabel.text, on: self).cancel()
@@ -35,7 +35,8 @@ class SearchResultCell: UITableViewCell
             .compactMap{ return $0 }
             .sink { thumbnailURL in
                 // Download image.
-                self._imageSubscriber = URLSession.shared.fetchImage(for: thumbnailURL, placeholder: #imageLiteral(resourceName: "placeholder"))
+                self._imageSubscriber = URLSession.shared.fetchImage(for: thumbnailURL,
+                                                                     placeholder: UIImage(systemName: "photo"))
                     .receive(on: DispatchQueue.main)
                     .assign(to: \.thumbnailView.image, on: self) }.cancel()
     }

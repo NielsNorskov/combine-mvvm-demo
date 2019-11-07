@@ -37,7 +37,8 @@ class DetailViewController: UIViewController
             .compactMap{ return $0 }
             .sink { thumbnailURL in
                 // Download image.
-                self._imageSubscriber = URLSession.shared.fetchImage(for: thumbnailURL, placeholder: #imageLiteral(resourceName: "placeholder"))
+                self._imageSubscriber = URLSession.shared.fetchImage(for: thumbnailURL,
+                                                                     placeholder: UIImage(systemName: "photo"))
                     .receive(on: DispatchQueue.main)
                     .assign(to: \.imageView.image, on: self) }.cancel()
     }
